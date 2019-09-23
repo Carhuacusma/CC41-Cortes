@@ -43,10 +43,11 @@ def algoritmoDante(size, arrRec):
     girado = [False]*n
     def paso(rec, j, forma):
         # recibe uno de los recortes, la "posicion" del paso, y la forma
-        n = len(forma)
-        forma[i]
+        arr = []
+        for len in forma:
+            forma[i][1]
         return
-    forma = [(0,0),arrRec[0]]
+    forma = [(0,0),[]]
     ##empezar con el recorte de mayor area en la esquina
     paso(arrRec[0],0, forma)
 
@@ -59,10 +60,26 @@ quickSort(ejemplo,0,2)
 print(ejemplo)
 
 
+# In[47]:
+
+
+lista = [[(0,0),(2,5)],
+         [(2,0),(3,4)],
+         [(5,0),(2,6)]]
+arr = []
+for elem in lista:
+    arr.append(elem[1])
+print(arr)
+
+
 # In[ ]:
 
 
-with open('ejemplo.in') as f:
-    for line in f:
-         
+
+
+
+# In[ ]:
+
+
+
 
