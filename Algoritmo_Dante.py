@@ -1,7 +1,25 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[32]:
+# In[2]:
+
+
+##input
+largo = int(input("Largo (x):"))
+ancho = int(input("Ancho (y):"))
+n = int(input("Numero de piezas:"))
+print("Tamaños separados por comas")
+arr = []
+for i in range(n):
+    aux = input()
+    lista = aux.split(',')
+    lista[0] = int(lista[0])
+    lista[1] = int(lista[1])
+    tupla = lista[0], lista[1]
+    arr.append(tupla)
+
+
+# In[5]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -42,37 +60,23 @@ def algoritmoDante(size, arrRec):
     # [[(pos.x, pos.y), (ancho_x, largo_y)], [(pos2.x,pos2.y),(ancho2,largo2)], ...]
     girado = [False]*n
     def paso(rec, j, forma):
-        # recibe uno de los recortes, la "posicion" del paso, y la forma
-        arr = []
-        for len in forma:
-            forma[i][1]
-        return
-    forma = [(0,0),[]]
+        # recibe uno de los recortes, la "iteracion" del paso, y la forma que está cortada
+        arrAreaCut = []
+        for aux in forma:
+            arrAreaCut.append(aux[1])
+        sumAreaCut = sumArea(arrAreaCut)
+    #forma = []
     ##empezar con el recorte de mayor area en la esquina
-    paso(arrRec[0],0, forma)
+    #paso(arrRec[0],0, forma)
+ejemplo = []
+#ejemplo.sort()
+print(len(ejemplo))
+for ej in ejemplo:
+    print("hai")
+print(sumArea(ejemplo))
 
 
-# In[35]:
-
-
-ejemplo = [(5,5, 'a'), (20,1,'b'), (16,5,'c')]
-quickSort(ejemplo,0,2)
-print(ejemplo)
-
-
-# In[47]:
-
-
-lista = [[(0,0),(2,5)],
-         [(2,0),(3,4)],
-         [(5,0),(2,6)]]
-arr = []
-for elem in lista:
-    arr.append(elem[1])
-print(arr)
-
-
-# In[ ]:
+# In[3]:
 
 
 
@@ -81,5 +85,6 @@ print(arr)
 # In[ ]:
 
 
-
+aux = [(0,0),(6,0),(6,2),(4,2),(4,3),(5,3),(5,6),(0,6)]
+def 
 
