@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[9]:
 
 
 def sumArea(arr):
@@ -15,10 +15,14 @@ def algoritmoDante(size, arrRec):
     areaT = size[0] * size[1]
     n = len(arrRec)
     bestWaste = sumArea(arrRec)
+    def contorno(forma1, forma2):
+        n1 = len(forma1)
+        n2 = len(forma2)
+        
     def paso(arr):
         sumArea = sumArea(arr)
         if areaT - sumArea == bestWaste:
-            return
+            return arr
         
 
 
