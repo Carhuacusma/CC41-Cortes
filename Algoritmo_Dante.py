@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[25]:
+# In[32]:
 
 
-def sumArea(arr):
+def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
     sumArea = 0
     for i in range(len(arr)):
-        sumArea = sumArea + arr[i][0]
+        sumArea = sumArea + arr[i][0]* arr[i][1]
     return sumArea
 
 def partition(arr,ini,fin): 
@@ -15,7 +15,7 @@ def partition(arr,ini,fin):
     pivot = arr[fin][0]*arr[fin][1]     # pivot como area
     
     for j in range(ini , fin): 
-        if   (arr[j][0] * arr[j][1]) <= pivot: 
+        if   (arr[j][0] * arr[j][1]) >= pivot: 
             # increment index of smaller element 
             i = i+1 
             arr[i],arr[j] = arr[j],arr[i] 
@@ -26,34 +26,26 @@ def partition(arr,ini,fin):
 # Function to do Quick sort 
 def quickSort(arr,low,high): 
     if low < high: 
-        # pi is partitioning index, arr[p] is now 
-        # at right place 
         pi = partition(arr,low,high) 
-        # Separately sort elements before 
-        # partition and after partition 
         quickSort(arr, low, pi-1) 
         quickSort(arr, pi+1, high) 
-
 
 def algoritmoDante(size, arrRec):
     ##arrRec es arreglo de tuplas ancho, largo
     n = len(arrRec)
     quickSort(arrRec, 0, n-1)
+    # arrRec está ordenado de mayor a menor area
     areaT = size[0] * size[1]
     bestWaste = sumArea(arrRec)
     arrRes = []*n
-    arrPos = []*n
-    def contorno(forma1, forma2):
-        n1 = len(forma1)
-        n2 = len(forma2)
-        
-    def paso(rec, arr, it):
-        ##something
-        
+    # (pos.x, pos.y), (ancho_x, largo_y)
+    def paso(rec, j):
+        # recibe uno de los recortes y la "posicion" del paso
         return
+    paso(arrRec[0],0)
 
 
-# In[28]:
+# In[30]:
 
 
 ejemplo = [(5,5), (1,2), (2,3),(2,10)]
