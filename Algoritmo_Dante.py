@@ -10,6 +10,7 @@ def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
         sumArea = sumArea + arr[i][0]* arr[i][1]
     return sumArea
 
+# ------------Quick Sort modificado--------------
 def partition(arr,ini,fin): 
     i = ini-1                       # index of smaller element 
     pivot = arr[fin][0]*arr[fin][1]     # pivot como area
@@ -22,34 +23,39 @@ def partition(arr,ini,fin):
 
     arr[i+1],arr[fin] = arr[fin],arr[i+1] 
     return i+1
-  
-# Function to do Quick sort 
 def quickSort(arr,low,high): 
     if low < high: 
         pi = partition(arr,low,high) 
         quickSort(arr, low, pi-1) 
         quickSort(arr, pi+1, high) 
-
+# ------------Quick Sort modificado--------------
+        
 def algoritmoDante(size, arrRec):
-    ##arrRec es arreglo de tuplas ancho, largo
+    # arrRec es arreglo de tuplas ancho, largo, ""posibilidad de un ID.
+    # size es ancho, largo
     n = len(arrRec)
     quickSort(arrRec, 0, n-1)
     # arrRec está ordenado de mayor a menor area
     areaT = size[0] * size[1]
     bestWaste = sumArea(arrRec)
-    arrRes = []*n
-    # (pos.x, pos.y), (ancho_x, largo_y)
-    def paso(rec, j):
-        # recibe uno de los recortes y la "posicion" del paso
+    arrRes = []
+    # [[(pos.x, pos.y), (ancho_x, largo_y)], [(pos2.x,pos2.y),(ancho2,largo2)], ...]
+    girado = [False]*n
+    def paso(rec, j, forma):
+        # recibe uno de los recortes, la "posicion" del paso, y la forma
+        n = len(forma)
+        forma[i]
         return
-    paso(arrRec[0],0)
+    forma = [(0,0),arrRec[0]]
+    ##empezar con el recorte de mayor area en la esquina
+    paso(arrRec[0],0, forma)
 
 
-# In[30]:
+# In[35]:
 
 
-ejemplo = [(5,5), (1,2), (2,3),(2,10)]
-quickSort(ejemplo,0,3)
+ejemplo = [(5,5, 'a'), (20,1,'b'), (16,5,'c')]
+quickSort(ejemplo,0,2)
 print(ejemplo)
 
 
