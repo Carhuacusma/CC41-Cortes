@@ -19,13 +19,13 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[5]:
+# In[1]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
     sumArea = 0
-    for i in range(len(arr)):
-        sumArea = sumArea + arr[i][0]* arr[i][1]
+    for elem in arr:
+        sumArea = sumArea + elem[0]* elem[1]
     return sumArea
 
 # ------------Quick Sort modificado--------------
@@ -59,17 +59,28 @@ def algoritmoDante(size, arrRec):
     arrRes = []
     # [[(pos.x, pos.y), (ancho_x, largo_y)], [(pos2.x,pos2.y),(ancho2,largo2)], ...]
     girado = [False]*n
+    # girado ordenado según los ids
     def paso(rec, j, forma):
         # recibe uno de los recortes, la "iteracion" del paso, y la forma que está cortada
         arrAreaCut = []
         for aux in forma:
             arrAreaCut.append(aux[1])
         sumAreaCut = sumArea(arrAreaCut)
-    #forma = []
+        if sumAreaCut == bestWaste:
+            ##si es el mejor caso, regresaf
+            return forma
+        ##posicionar rec en forma:
+        # TO DO ---------------------------
+        # paso(arrRec[j+1], j + 1, forma)
+        ##girar si es necesario
+        
+    forma = []
     ##empezar con el recorte de mayor area en la esquina
-    #paso(arrRec[0],0, forma)
+    paso(arrRec[0],0, forma)
+
+
+    
 ejemplo = []
-#ejemplo.sort()
 print(len(ejemplo))
 for ej in ejemplo:
     print("hai")
