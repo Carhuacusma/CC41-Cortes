@@ -4,12 +4,19 @@
 # In[19]:
 
 class Rectangulo:
-    def __init__(self,l,a,en,i):
-        self.largo = l
-        self.ancho = a
+    pos = (0,0)
+    def __init__(self,a,l,en,i):
+        self.base = l
+        self.alto = a
         self.n = en
         self.ids = i
-    
+        
+    def __init__(self,a,l,en,i,x,y):
+        self.base = l
+        self.alto = a
+        self.n = en
+        self.ids = i
+        self.pos = (x,y)
 
 def menu():
     largo = int(input("Ingrese el largo de la placa: "))
@@ -21,8 +28,8 @@ def menu():
         a = int(input("Ancho: ")) ##ancho.
         b = int(input("Largo: ")) ##largo
         en = int(input("Cantidad piezas: "))
-        arrRec.append(Rectangulo(b,a,en,i))
-    print(arrRec[0].largo)
+        arrRec.append(Rectangulo(b,a,en,i,0,0))
+    print(arrRec[0].base)
     print("Elija el algoritmo con el cuál se harán los recortes:")
     print("1 = Algoritmo Galván")
     print("2 = Algoritmo Moreno")
