@@ -1,25 +1,28 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # coding: utf-8
 
 # In[19]:
 
 class Rectangulo:
-    int largo, ancho, n
-    id string 
+    def __init__(self,l,a,en,i):
+        self.largo = l
+        self.ancho = a
+        self.n = en
+        self.ids = i
     
 
 def menu():
-    hola()
     largo = int(input("Ingrese el largo de la placa: "))
     ancho = int(input("Ingrese el ancho de la placa: "))
     n = int(input("Ingrese la cantidad de recortes diferentes que tendra: "))
-    arrRec = []
+    arrRec = []*n
     for i in range(n):
-        print("Ingrese el largo y el ancho del recorte ", i + 1, " ")
+        print("Ingrese el largo y el ancho del recorte ", i + 1, ": ")
         a = int(input("Ancho: ")) ##ancho.
         b = int(input("Largo: ")) ##largo
-        arrRec.append((a,b))
-    print(arrRec)
+        en = int(input("Cantidad piezas: "))
+        arrRec.append(Rectangulo(b,a,en,i))
+    print(arrRec[0].largo)
     print("Elija el algoritmo con el cuál se harán los recortes:")
     print("1 = Algoritmo Galván")
     print("2 = Algoritmo Moreno")
@@ -29,8 +32,14 @@ def menu():
     print(c)
     
 def Dante():
-def Natalia():
+    if(True):
+        return
+def Natalia(): 
+    if(True):
+        return
 def Joaquin(): 
+    if(True):
+        return
 menu()    
     
 
