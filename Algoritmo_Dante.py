@@ -26,7 +26,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[10]:
+# In[17]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -123,14 +123,21 @@ def algoritmoDante(sizeP, arrRec):
         newX = 0
         newY = 0
         acomodado = False
+        print("forma:")
         print(forma)
-        def auxPosicion(newPos,newSize):
-            newRec = [newPos,newSize]
+        def auxPosicion(newRec):
             forma.append(newRec)
             if j < n - 1:
+                print("analizando la forma siguiente:")
                 if paso(arrRec[j+1],j+1,nP):
                     #si sale bien:
                     print("agregando")
+                    arrRes[j] = newRec
+                    return True
+            elif j == n - 1:
+                print("Ultima forma:")
+                if newRec[0][0] + newRec[1][0] <= nP*sizeP[0] and newRec[0][1] + newRec[1][1] <= nP*sizeP[1]:
+                    print("Entra")
                     arrRes[j] = newRec
                     return True
             forma.pop(len(forma) - 1)
@@ -145,29 +152,30 @@ def algoritmoDante(sizeP, arrRec):
                 break
             newRecForma = [(newX,newY),(rec[0],rec[1])]
             if chocan(newRecForma,aux):
+                # probar por ancho
                 newX = aux[1][0] + aux[0][0]
-                ## --------------------------------------------------TO DO
-            # Anterior implementación para probar por ancho, abajo o en la esquina:
-            ##if newX == posRec[0] and newY == posRec[1]:
-            ##    newX = newX + sizeRec[0]
-            ##    if newX + rec[0] <= nP*size[0]:
-            ##        print("probar por ancho")
-            ##        # probar si entró por ancho
-            ##        acomodado = auxPosicion((newX,newY),rec)
-            ##    newY = newY + sizeRec[1]
-            ##    if newY + rec[1] <= nP*size[1] and not acomodado and newX + rec[0] <= nP*size[0]:
-            ##        print("probar por esquina")
-            ##        ##probar si entra en la esquina
-            ##        acomodado = auxPosicion((newX,newY),rec)
-            ##    newX = newX - sizeRec[0]
-            ##    if newY + rec[1] <= nP*size[0] and not acomodado:
-            ##        ##probar por abajo
-            ##        print("probar por abajo")
-            ##        acomodado = auxPosicion((newX,newY),rec)
+                if newX + rec[0] <= nP*sizeP[0]:
+                    #SI PUEDE ENTRAR EN LA PLANCHA
+                    print("probar ancho")
+                    newRecForma = [(newX,newY),rec]
+                    acomodado = auxPosicion(newRecForma)
+                # esquina inferior derecha
+                newY = aux[1][1] + aux[0][1]
+                if not acomodado and newY + rec[1] <= nP*sizeP[1] and newX + rec[0] <= nP*sizeP[0]:
+                    print("probar en la esquina")
+                    newRecForma = [(newX,newY),rec]
+                    acomodado = auxPosicion(newRecForma)
+                #quitar x para ir abajo
+                newX = aux[1][0]
+                if not acomodado and newY + rec[1] <= nP*sizeP[1]:
+                    print("probar en la esquina")
+                    newRecForma = [(newX,newY),rec]
+                    acomodado = auxPosicion(newRecForma)
+        newRecForma = [(newX,newY),rec]
         if not acomodado:
-            acomodado = auxPosicion((newX,newY),rec)
+            acomodado = auxPosicion(newRecForma)
         # paso(arrRec[j+1], j + 1, forma)
-        ##--->girar si es necesario
+        ##--->girar si es necesario------------TO DO !!!!!!!!!!!!!!!!!!!!!!
         
     ##empezar con el recorte de mayor area en la esquina
     paso(arrRec[0],0,1)
@@ -175,7 +183,7 @@ def algoritmoDante(sizeP, arrRec):
     return arrRes
 
 
-ejemplo = [(1,1),(1,1),(1,1)]
+ejemplo = [(1,1,'A')]
 plancha = (3,1)
 algoritmoDante(plancha,ejemplo)
 
