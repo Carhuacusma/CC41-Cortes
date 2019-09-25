@@ -19,7 +19,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[1]:
+# In[11]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -78,19 +78,51 @@ def algoritmoDante(size, arrRec):
                 arrAreaCut.append(aux[1])
             sumAreaCut = sumArea(arrAreaCut)
             if sumAreaCut == bestWaste:
-                return forma
+                return True
         elif nP == nPlanchas and len(forma) == n:
-            return forma
+            return True
         
         ##posicionar rec en forma:
+        newX = 0
+        newY = 0
+        acomodado = False
         
-        # TO DO ---------------------------
+        def auxPosicion(newPos,newSize):
+                newRec = [newPos,newSize]
+                forma.append(newRec)
+                if paso(arrRec[j+1],j+1,1,forma):
+                    #si sale bien:
+                    arrRes.insert(j,newRec)
+                    return True
+                return False
+        
+        for aux in forma:
+            if acomodado:
+                break
+            posRec = aux[0][0],aux[0][1]
+            #posicion x,y de uno de los rectangulos
+            sizeRec = aux[1][0], aux[1][1]
+            #tamaño del rectangulo
+            if newX == posRec[0] and newY == posRec[1]:
+                newX = newX + sizeRec[0]
+                if newX + rec[0] <= nP*size[0]:
+                    # probar si entró por ancho
+                    acomodado = auxPosicion((newX,newY),rec)
+                newY = newY + sizeRec[1]
+                if newY + rec[1] <= nP*size[1] and not acomodado and newX + rec[0] <= nP*size[0]:
+                    ##probar si entra en la esquina
+                    acomodado = auxPosicion((newX,newY),rec)
+                newX = newX - sizeRec[0]
+                if newY + rec[1] <= nP*size[0] and not acomodado:
+                    ##probar
+                    acomodado = auxPosicion((newX,newY),rec)
+                
         # paso(arrRec[j+1], j + 1, forma)
         ##--->girar si es necesario
         
     forma = []
     ##empezar con el recorte de mayor area en la esquina
-    paso(arrRec[0],0, forma)
+    paso(arrRec[0],0,1,forma)
 
 
     
