@@ -4,6 +4,13 @@
 # In[2]:
 
 
+class Rectangulo:
+    def __init__(self,l,a,en,i):
+        self.largo = l
+        self.ancho = a
+        self.n = en
+        self.ids = i
+
 ##input
 largo = int(input("Largo (x):"))
 ancho = int(input("Ancho (y):"))
@@ -19,7 +26,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[6]:
+# In[10]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -27,6 +34,28 @@ def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
     for elem in arr:
         sumArea = sumArea + elem[0]* elem[1]
     return sumArea
+
+def chocan(rec1, rec2):
+    # rec : [(pos.x,pos.y),(size.x,size.y)]
+    aux = False
+    if rec1[0][0] >= rec2[0][0] and rec1[0][0] <= rec2[0][0] + rec2[1][0]:
+        ## si pos.x está dentro del rango de x de rec2
+        # comprobar los y
+        # esquina origen pos (superior izquierda)
+        aux = rec1[0][1] >= rec2[0][1] and rec1[0][1] <= rec2[0][1] + rec2[1][1] 
+        # esquina inferior izquierda
+        aux = aux or (rec1[0][1] + rec1[1][1] >= rec2[0][1] and rec1[0][1] + rec1[1][1] <= rec2[0][1] + rec2[1][1])
+        if aux:
+            return True
+    if rec1[0][0] + rec1[1][0] >= rec2[0][0] and rec1[0][0] + rec1[1][0] <= rec2[0][0] + rec2[1][0]:
+        ## si el limite x está en el rango de x de rec 2
+        # comprobar los y
+        # esquina superior derecha
+        aux = rec1[0][1] >= rec2[0][1] and rec1[0][1] <= rec2[0][1] + rec2[1][1]
+        aux = aux or (rec1[0][1] + rec1[1][1] >= rec2[0][1] and rec1[0][1] + rec1[1][1] <= rec2[0][1] + rec2[1][1])
+        if aux:
+            return True
+    return aux
 
 # ------------Quick Sort modificado--------------
 def partition(arr,ini,fin): 
@@ -48,7 +77,7 @@ def quickSort(arr,low,high):
         quickSort(arr, pi+1, high) 
 # ------------Quick Sort modificado--------------
         
-def algoritmoDante(size, arrRec):
+def algoritmoDante(sizeP, arrRec):
     # arrRec es arreglo de tuplas ancho, largo, ""posibilidad de un ID.
     # size es ancho, largo
     n = len(arrRec)
@@ -56,7 +85,7 @@ def algoritmoDante(size, arrRec):
     # arrRec está ordenado de mayor a menor area
     
     #------definir el minimo desecho o cuantas planchas usar------
-    areaT = size[0] * size[1]
+    areaT = sizeP[0] * sizeP[1]
     bestWaste = sumArea(arrRec)
     nPlanchas = 1
     if areaT >= bestWaste:
@@ -65,7 +94,7 @@ def algoritmoDante(size, arrRec):
         nPlanchas = bestWaste//areaT #para que sea entero //
     #-------------------------------------------------------------
     
-    arrRes = []*n
+    arrRes = [0]*n
     forma = []
     # [[(pos.x, pos.y), (ancho_x, largo_y)], [(pos2.x,pos2.y),(ancho2,largo2)], ...]
     girado = [False]*n
@@ -77,12 +106,14 @@ def algoritmoDante(size, arrRec):
         ##----- comprobar si está en alguno de los estados finales
         #if j == n:
         #    return False
+        print("iteracion:")
+        print(j)
         if nPlanchas == 1:
             arrAreaCut = []
             for aux in forma:
                 arrAreaCut.append(aux[1])
             sumAreaCut = sumArea(arrAreaCut)
-            if sumAreaCut == bestWaste:
+            if sumAreaCut == bestWaste and len(forma) == n:
                 return True
         elif nP == nPlanchas and len(forma) == n:
             return True
@@ -97,10 +128,14 @@ def algoritmoDante(size, arrRec):
             newRec = [newPos,newSize]
             forma.append(newRec)
             if j < n - 1:
-                if paso(arrRec[j+1],j+1,1):
+                if paso(arrRec[j+1],j+1,nP):
                     #si sale bien:
-                    arrRes.insert(j,newRec)
+                    print("agregando")
+                    arrRes[j] = newRec
                     return True
+            forma.pop(len(forma) - 1)
+            print("regresando")
+            print(forma)
             return False
     
         for aux in forma:
@@ -108,23 +143,27 @@ def algoritmoDante(size, arrRec):
                 print("acomodado")
                 print(forma)
                 break
-            posRec = aux[0][0],aux[0][1]
-            #posicion x,y de uno de los rectangulos
-            sizeRec = aux[1][0], aux[1][1]
-            #tamaño del rectangulo
-            if newX == posRec[0] and newY == posRec[1]:
-                newX = newX + sizeRec[0]
-                if newX + rec[0] <= nP*size[0]:
-                    # probar si entró por ancho
-                    acomodado = auxPosicion((newX,newY),rec)
-                newY = newY + sizeRec[1]
-                if newY + rec[1] <= nP*size[1] and not acomodado and newX + rec[0] <= nP*size[0]:
-                    ##probar si entra en la esquina
-                    acomodado = auxPosicion((newX,newY),rec)
-                newX = newX - sizeRec[0]
-                if newY + rec[1] <= nP*size[0] and not acomodado:
-                    ##probar
-                    acomodado = auxPosicion((newX,newY),rec)
+            newRecForma = [(newX,newY),(rec[0],rec[1])]
+            if chocan(newRecForma,aux):
+                newX = aux[1][0] + aux[0][0]
+                ## --------------------------------------------------TO DO
+            # Anterior implementación para probar por ancho, abajo o en la esquina:
+            ##if newX == posRec[0] and newY == posRec[1]:
+            ##    newX = newX + sizeRec[0]
+            ##    if newX + rec[0] <= nP*size[0]:
+            ##        print("probar por ancho")
+            ##        # probar si entró por ancho
+            ##        acomodado = auxPosicion((newX,newY),rec)
+            ##    newY = newY + sizeRec[1]
+            ##    if newY + rec[1] <= nP*size[1] and not acomodado and newX + rec[0] <= nP*size[0]:
+            ##        print("probar por esquina")
+            ##        ##probar si entra en la esquina
+            ##        acomodado = auxPosicion((newX,newY),rec)
+            ##    newX = newX - sizeRec[0]
+            ##    if newY + rec[1] <= nP*size[0] and not acomodado:
+            ##        ##probar por abajo
+            ##        print("probar por abajo")
+            ##        acomodado = auxPosicion((newX,newY),rec)
         if not acomodado:
             acomodado = auxPosicion((newX,newY),rec)
         # paso(arrRec[j+1], j + 1, forma)
@@ -141,18 +180,26 @@ plancha = (3,1)
 algoritmoDante(plancha,ejemplo)
 
 
-# In[9]:
+# In[4]:
 
 
-arr = []*5
-arr.insert(1,3)
-arr.insert(2,([(1,2),(2,3)]))
+arr = [0]*5
+arr[1] = (2,5)
 print(arr)
+
+
+# In[6]:
+
+
+aux = 0
+asmr = aux < 5 and aux > 3
+print(asmr)
+asmr = asmr or aux == 0
+print(asmr)
 
 
 # In[ ]:
 
 
-aux = [(0,0),(6,0),(6,2),(4,2),(4,3),(5,3),(5,6),(0,6)]
-def 
+
 
