@@ -3,6 +3,10 @@
 
 # In[19]:
 
+class Rectangulo:
+    int largo, ancho, n
+    id string 
+    
 
 def menu():
     hola()
