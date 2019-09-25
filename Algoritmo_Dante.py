@@ -26,7 +26,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[17]:
+# In[27]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -149,6 +149,7 @@ def algoritmoDante(sizeP, arrRec):
             if acomodado:
                 print("acomodado")
                 print(forma)
+                arrRes[j] = newRecForma
                 break
             newRecForma = [(newX,newY),(rec[0],rec[1])]
             if chocan(newRecForma,aux):
@@ -172,8 +173,12 @@ def algoritmoDante(sizeP, arrRec):
                     newRecForma = [(newX,newY),rec]
                     acomodado = auxPosicion(newRecForma)
         newRecForma = [(newX,newY),rec]
-        if not acomodado:
-            acomodado = auxPosicion(newRecForma)
+        if acomodado:
+            print("acomodado after for")
+            print(forma)
+            arrRes[j] = newRecForma
+            return True
+        return auxPosicion(newRecForma)
         # paso(arrRec[j+1], j + 1, forma)
         ##--->girar si es necesario------------TO DO !!!!!!!!!!!!!!!!!!!!!!
         
@@ -183,8 +188,8 @@ def algoritmoDante(sizeP, arrRec):
     return arrRes
 
 
-ejemplo = [(1,1,'A')]
-plancha = (3,1)
+ejemplo = [(1,1,'A'),(1,2,'B'),(1,1,'C')]
+plancha = (3,2)
 algoritmoDante(plancha,ejemplo)
 
 
