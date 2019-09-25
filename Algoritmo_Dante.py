@@ -19,7 +19,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[19]:
+# In[6]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -59,21 +59,24 @@ def algoritmoDante(size, arrRec):
     areaT = size[0] * size[1]
     bestWaste = sumArea(arrRec)
     nPlanchas = 1
-    if areaT > bestWaste:
+    if areaT >= bestWaste:
         bestWaste = areaT - bestWaste
     else:
-        nPlanchas = bestWaste//sizeArea #para que sea entero //
+        nPlanchas = bestWaste//areaT #para que sea entero //
     #-------------------------------------------------------------
     
     arrRes = []*n
+    forma = []
     # [[(pos.x, pos.y), (ancho_x, largo_y)], [(pos2.x,pos2.y),(ancho2,largo2)], ...]
     girado = [False]*n
     # girado ordenado según los ids
-    def paso(rec, j, nP, forma):
+    def paso(rec, j, nP):
         # recibe uno de los recortes, la "iteracion" del paso, 
         # el numero de Plancha en que trabaja, y la forma que está cortada
-        if j == n -1:
-            return False
+        
+        ##----- comprobar si está en alguno de los estados finales
+        #if j == n:
+        #    return False
         if nPlanchas == 1:
             arrAreaCut = []
             for aux in forma:
@@ -83,23 +86,23 @@ def algoritmoDante(size, arrRec):
                 return True
         elif nP == nPlanchas and len(forma) == n:
             return True
+        ##---------------------------------------------------------------
         
         ##posicionar rec en forma:
         newX = 0
         newY = 0
         acomodado = False
-        
         print(forma)
-        
         def auxPosicion(newPos,newSize):
             newRec = [newPos,newSize]
             forma.append(newRec)
-            if paso(arrRec[j+1],j+1,1,forma):
-                #si sale bien:
-                arrRes.insert(j,newRec)
-                return True
+            if j < n - 1:
+                if paso(arrRec[j+1],j+1,1):
+                    #si sale bien:
+                    arrRes.insert(j,newRec)
+                    return True
             return False
-        
+    
         for aux in forma:
             if acomodado:
                 print("acomodado")
@@ -127,15 +130,14 @@ def algoritmoDante(size, arrRec):
         # paso(arrRec[j+1], j + 1, forma)
         ##--->girar si es necesario
         
-    forma = []
     ##empezar con el recorte de mayor area en la esquina
-    paso(arrRec[0],0,1,forma)
+    paso(arrRec[0],0,1)
     print(arrRes)
     return arrRes
 
-    
-ejemplo = [(2,5),(3,4),(1,2)]
-plancha = (6,5)
+
+ejemplo = [(1,1),(1,1),(1,1)]
+plancha = (3,1)
 algoritmoDante(plancha,ejemplo)
 
 
