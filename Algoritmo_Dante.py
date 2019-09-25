@@ -19,7 +19,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[11]:
+# In[19]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -60,7 +60,7 @@ def algoritmoDante(size, arrRec):
     bestWaste = sumArea(arrRec)
     nPlanchas = 1
     if areaT > bestWaste:
-        bestWaste = sizeArea - bestWaste
+        bestWaste = areaT - bestWaste
     else:
         nPlanchas = bestWaste//sizeArea #para que sea entero //
     #-------------------------------------------------------------
@@ -72,6 +72,8 @@ def algoritmoDante(size, arrRec):
     def paso(rec, j, nP, forma):
         # recibe uno de los recortes, la "iteracion" del paso, 
         # el numero de Plancha en que trabaja, y la forma que está cortada
+        if j == n -1:
+            return False
         if nPlanchas == 1:
             arrAreaCut = []
             for aux in forma:
@@ -87,17 +89,21 @@ def algoritmoDante(size, arrRec):
         newY = 0
         acomodado = False
         
+        print(forma)
+        
         def auxPosicion(newPos,newSize):
-                newRec = [newPos,newSize]
-                forma.append(newRec)
-                if paso(arrRec[j+1],j+1,1,forma):
-                    #si sale bien:
-                    arrRes.insert(j,newRec)
-                    return True
-                return False
+            newRec = [newPos,newSize]
+            forma.append(newRec)
+            if paso(arrRec[j+1],j+1,1,forma):
+                #si sale bien:
+                arrRes.insert(j,newRec)
+                return True
+            return False
         
         for aux in forma:
             if acomodado:
+                print("acomodado")
+                print(forma)
                 break
             posRec = aux[0][0],aux[0][1]
             #posicion x,y de uno de los rectangulos
@@ -116,21 +122,21 @@ def algoritmoDante(size, arrRec):
                 if newY + rec[1] <= nP*size[0] and not acomodado:
                     ##probar
                     acomodado = auxPosicion((newX,newY),rec)
-                
+        if not acomodado:
+            acomodado = auxPosicion((newX,newY),rec)
         # paso(arrRec[j+1], j + 1, forma)
         ##--->girar si es necesario
         
     forma = []
     ##empezar con el recorte de mayor area en la esquina
     paso(arrRec[0],0,1,forma)
-
+    print(arrRes)
+    return arrRes
 
     
-ejemplo = []
-print(len(ejemplo))
-for ej in ejemplo:
-    print("hai")
-print(sumArea(ejemplo))
+ejemplo = [(2,5),(3,4),(1,2)]
+plancha = (6,5)
+algoritmoDante(plancha,ejemplo)
 
 
 # In[9]:
