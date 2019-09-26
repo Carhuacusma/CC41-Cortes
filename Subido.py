@@ -9,6 +9,7 @@ class Rectangulo:
         self.arrhijos = []
         self.horientacion = "N"
         self.visited = False
+        self.tabla = 0
         if en > 1:
             for i in range(en):
                 self.arrhijos.append(Rectangulo(a,l,0,i,0,0))
