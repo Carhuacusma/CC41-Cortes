@@ -35,65 +35,113 @@ print("")
 def work(arr,contT):
     for x in range(len(ArrRect)):  #Recore los diferentes rectangulos no considera la cantidad individual
         if ArrRect[x].visited == True:
-           # print("\n","Rectangulo",x,"\n")
             continue
+        else:
+            print("\n","Plancha",contT,"\n")
+            print("\n","Rectangulo",x,"\n")
+
         for j in range(len(ArrRect[x].arrhijos)+1): 
             if j > 0 and ArrRect[x].arrhijos[j-1].visited == True:
                 continue
             for i in range(len(arr)): 
                 if encaja(ArrRect[x],arr,i):
                     aux = i
-                    for z in range(ArrRect[x].alto):
-                        arr[i] = arr[i][ArrRect[x].base:]
-                        i += 1 #muy util
-                        if j == 0:
+                    if j == 0:
                             ArrRect[x].pos = (i, arr[i][0])
                             ArrRect[x].visited = True
                             ArrRect[x].tabla = contT
-
-
-                        else:
+                    else:
                             ArrRect[x].arrhijos[(j-1)].pos = (i, arr[i][0])
                             ArrRect[x].arrhijos[(j-1)].visited = True
                             ArrRect[x].arrhijos[(j-1)].tabla = contT
-
-
+                    for z in range(ArrRect[x].alto):
+                        arr[i] = arr[i][ArrRect[x].base:]
+                        i += 1 #muy util
                     ##i = aux
                     break
                 voltear(ArrRect[x])
                 if encaja(ArrRect[x],arr,i):
-                    for z in range(ArrRect[x].alto):
-                        arr[i] = arr[i][ArrRect[x].base:]
-                        i += 1 #muy util
-                        if j == 0:
+                    if j == 0:
                             ArrRect[x].pos = (i, arr[i][0])
-                            ArrRect[x].visited = True                            
+                            ArrRect[x].visited = True
                             ArrRect[x].tabla = contT
-                        else:
+                    else:
                             ArrRect[x].arrhijos[(j-1)].pos = (i, arr[i][0])
                             ArrRect[x].arrhijos[(j-1)].visited = True
                             ArrRect[x].arrhijos[(j-1)].tabla = contT
-
+                    for z in range(ArrRect[x].alto):
+                        arr[i] = arr[i][ArrRect[x].base:]
+                        i += 1 #muy util
 
                         ##i = aux
                     break
                 else:
                     for ar in range(len(ArrArr)):
                         if encaja(ArrRect[x],ArrArr[ar],i):
-                            work(ArrArr[ar],ar)
-                            break
+                            if j == 0:
+                                ArrRect[x].pos = (i, ArrArr[ar][i][0])
+                                ArrRect[x].visited = True                            
+                                ArrRect[x].tabla = contT
+                            else:
+                                ArrRect[x].arrhijos[(j-1)].pos = (i, ArrArr[ar][i][0])
+                                ArrRect[x].arrhijos[(j-1)].visited = True
+                                ArrRect[x].arrhijos[(j-1)].tabla = contT
+                            for z in range(ArrRect[x].alto):
+                                ArrArr[ar][i] = ArrArr[ar][i][ArrRect[x].base:]
+                                i += 1 #muy util
+                            break    
+                            
                         voltear(ArrRect[x])
                         if encaja(ArrRect[x],ArrArr[ar],i):
-                            work(ArrArr[ar],ar)
-                        else:
-                            ArrArr.append([[i+1 for i in range(base)] for _ in range(altura)])
-                            ##contT += 1 no lo se rick
-                        ##work(ArrArr[1])
+                            if j == 0:
+                                ArrRect[x].pos = (i, ArrArr[ar][i][0])
+                                ArrRect[x].visited = True                            
+                                ArrRect[x].tabla = contT
+                            else:
+                                ArrRect[x].arrhijos[(j-1)].pos = (i, ArrArr[ar][i][0])
+                                ArrRect[x].arrhijos[(j-1)].visited = True
+                                ArrRect[x].arrhijos[(j-1)].tabla = contT
+                            for z in range(ArrRect[x].alto):
+                                ArrArr[ar][i] = ArrArr[ar][i][ArrRect[x].base:]
+                                i += 1 #muy util
+                            break 
+                    if (j == 0 and ArrRect[x].visited == False) or (j > 0 and ArrRect[x].arrhijos[j-1].visited == False):
+                        ArrArr.append([[i+1 for i in range(base)] for _ in range(altura)])
+                        #if (j==0 and ArrRect[x].visited == False) or (j > 0 and ArrRect[x].arrhijos[j-1].visited == False):
+                        if encaja(ArrRect[x],ArrArr[-1],i):
+                            if j == 0:
+                                ArrRect[x].pos = (i, ArrArr[-1][i][0])
+                                ArrRect[x].visited = True                            
+                                ArrRect[x].tabla = len(ArrArr)
+                            else:
+                                ArrRect[x].arrhijos[(j-1)].pos = (i, ArrArr[-1][i][0])
+                                ArrRect[x].arrhijos[(j-1)].visited = True
+                                ArrRect[x].arrhijos[(j-1)].tabla = len(ArrArr)
+                            for z in range(ArrRect[x].alto):
+                                ArrArr[-1][i] = ArrArr[-1][i][ArrRect[x].base:]
+                                i += 1 #muy util
+
+                            ##if ArrRect[x].visited == False: ##Si no encajaste en el -1 N
+                        if (j==0 and ArrRect[x].visited == False) or (j > 0 and ArrRect[x].arrhijos[j-1].visited == False):
+                            voltear(ArrRect[x])
+                            if encaja(ArrRect[x],ArrArr[-1],i):
+                                if j == 0:
+                                    ArrRect[x].pos = (i, ArrArr[-1][i][0])
+                                    ArrRect[x].visited = True                            
+                                    ArrRect[x].tabla = len(ArrArr)
+                                else:
+                                    ArrRect[x].arrhijos[(j-1)].pos = (i, ArrArr[-1][i][0])
+                                    ArrRect[x].arrhijos[(j-1)].visited = True
+                                    ArrRect[x].arrhijos[(j-1)].tabla = len(ArrArr)
+                                for z in range(ArrRect[x].alto):
+                                    ArrArr[-1][i] = ArrArr[-1][i][ArrRect[x].base:]
+                                    i += 1 #muy util
+
+                                ##Si llega aquí no pudo entra en la forma    
             
-            """"print("\n","Número", x,".",j,"\n")
+            print("\n","Número", x,".",j,"\n")
             display(arr)
-            input()
-            print("")"""
+            print("")
 
 
     
@@ -124,7 +172,7 @@ def voltear(rec):
     rec.alto = AuxBase
     rec.horientazion = "I"
 
-##work(arrM,contTabla)
+work(arrM,contTabla)
 for i in range(len(ArrRect)):
     print(ArrRect[i].visited)
     if len(ArrRect[i].arrhijos) > 0:
@@ -133,7 +181,7 @@ for i in range(len(ArrRect)):
 
 grafico = [[i+1 for i in range(base)] for _ in range(altura)]#matrices de dibujo
 graficos = []
-for i in range(len(ArrRect)):
+for i in range(len(ArrArr)):
     graficos.append(grafico)
     
 def graphcito():
@@ -146,12 +194,19 @@ def graphcito():
             else:
                 for y in range(ArrRect[a].arrhijos[h-1].alto):
                     for x in range(ArrRect[a].arrhijos[h-1].base):
-                        graficos[ArrRect[a].arrhijos[h-1].tabla][ArrRect[a].arrhijos[h-1].pos[1]+y][ArrRect[a].arrhijos[h-1].pos[0]+x] = h+a
+                        graficos[ArrRect[a].arrhijos[h-1].tabla][ArrRect[a].arrhijos[h-1].pos[1]+y][ArrRect[a].arrhijos[h-1].pos[0]+x] = h+a #explota
 
 graphcito()
-for c in range(len(graficos)):                        
-    plt.imshow(graficos[c])           
+""""for c in range(len(ArrArr)):                        
+    print(c)
+    display(graficos[c])
+    print("El  que funciona?:")
+    display(ArrArr[c])"""
+plt.imshow(graficos[1])
 
+    
+    
 
+#display(ArrArr[-1])
 print("end")
-            
+        
