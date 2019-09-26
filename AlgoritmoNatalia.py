@@ -32,12 +32,19 @@ def Natalia(largo, ancho, arrRec, n):
         desperdicio = RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR)
     
     else:
-        placas = 2
+        mod = AreaRecortes % AreaPlaca
+        if mod == 0:
+            placas = AreaRecortes / AreaPlaca
+            
+        else:
+            placas = (AreaRecortes / AreaPlaca) + 1
+        
         c = 0
-        while(c <= 2):
+        while(c <= placas):
+            placa = InicializarMatriz(ancho, largo)
             desperdicio = RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR)
             VecDesperdicio.append(desperdicio)
-            c += 1
+            c += 1    
     
     ##5. Calcular el desperdicio
     Desperdicios = 0
@@ -47,9 +54,10 @@ def Natalia(largo, ancho, arrRec, n):
     DespPorcentaje = (Desperdicios/AreaPlaca * placas)*100
     
     ##6. Mostrar Resultados
-    print("El desperdicio generado es: "+ Desperdicios + " en metros")
-    print("El desperdicio generado es: "+ DespPorcentaje + "%")
-    print("Se utilizaron "+ placas + " planchas")
+    print("El desperdicio generado es: " + Desperdicios + " en metros")
+    print("El desperdicio generado es: " + DespPorcentaje + "%")
+    print("Se utilizaron " + placas + " planchas")
+
     
  def InicializarMatriz(ancho, largo):
     for i in range(largo):
@@ -58,36 +66,31 @@ def Natalia(largo, ancho, arrRec, n):
     return placa
 
 def RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR):
-    for i in range(n):
-        if arrRec[i].ancho + arrRec[i + 1].ancho <= ancho && arrRec.largo + arrRec[i + 1].largo == largo:
-            MayorAncho = 0
-            MenorLargo = 0
+    ##4. Recortar placa
+    if PlacaSR == True:
+        largo = arrRec[0].largo
+        ancho = arrRec[0].ancho
+        i, j = 0
+        Recortar(i, j, placa, largo, ancho)
+    
+    else:
+        for i in range(n):
+            for j in range(n):
+                if arrRec[i].largo + arr.Rec[j] == largo && arrRec[i].ancho + arrRec[j].ancho <= ancho:
+                    anchos = arrRec[i].ancho + arrRec[j].ancho
+                    Recortar()
             
-            if arrRec[i].ancho > arr[i + 1].ancho:
-                MayorAncho = arr[i].ancho
+                if arrRec[i].ancho + arr[j].ancho == ancho && arrRec[i].largo + arrRec[j].largo <= largo:
+                    largos = arrRec[i].largo + arrRec[j].largo
+                    Recortar()
             
-            if arrRec[i].ancho < arr[i + 1].ancho:
-                MayorAncho = arr[i + 1].ancho
+                if arrRec[i].largo + arrRec[j].largo <= largo && arrRec[i].ancho + arrRec[j].ancho <= ancho:
             
-            if arrRec[i].largo < arr[i + 1].largo:
-                MenorLargo = arrRec[i].largo
-                
-            else:
-                MenorLargo = arrRec[i + 1].largo
+                    Recortar()
             
-            if PlacaSR == True:
-                for i in range(largo):
-                    for j in range(ancho):
-                        placa[i][j] = 1
-                PlacaSR = False
-                
-            else:
-                i = largo - MenorLargo
-                for i in range(largo):
-                    for j in range(MayorAncho):
-                        if placa[i][j] == 0:
-                            placa == 1
-
+                if arrRec[i].ancho + arrRec[j].ancho <= ancho && arrRec[i].largo + arrRec[j].largo <= largo:
+            
+                    Recortar()
     
     
     ##5. Calcular el desperdicio
@@ -97,3 +100,9 @@ def RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR):
                 desperdicio += 1
     
     return desperdicio
+
+def Recortar(i, j, placa, largo, ancho):
+    for i in range(largo):
+        for j in range(ancho):
+            placa[i][j] = 1
+    
