@@ -2,9 +2,7 @@
 # coding: utf-8
 
 # In[ ]:
-
-
-### class Rectangulo:
+ class Rectangulo:
     pos = (0,0)
     def __init__(self,a,l,en,i,x,y):
         self.base = l
