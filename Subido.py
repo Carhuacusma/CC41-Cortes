@@ -8,6 +8,7 @@ class Rectangulo:
         self.pos = (x,y)    
         self.arrhijos = []
         self.horientacion = "N"
+        self.visited = False
         if en > 1:
             for i in range(en):
                 self.arrhijos.append(Rectangulo(a,l,0,i,0,0))
@@ -31,7 +32,6 @@ def menu():
     
     c = input("Algoritmo elejido: ") ##algoritmo elegido
     print(c)
-    print(len(arrRec[0].arrhijos))
 def Dante():
     if(True):
         return
