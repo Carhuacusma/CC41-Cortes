@@ -26,7 +26,7 @@ for i in range(n):
     arr.append(tupla)
 
 
-# In[67]:
+# In[14]:
 
 
 def sumArea(arr): #recibe arr [(ancho, largo),(ancho, largo),(...),...]
@@ -79,7 +79,9 @@ def quickSort(arr,low,high):
         quickSort(arr, low, pi-1) 
         quickSort(arr, pi+1, high) 
 # ------------Quick Sort modificado--------------
-        
+
+
+
 def algoritmoDante(sizeP, arrRec):
     # arrRec es arreglo de tuplas ancho, largo, ""posibilidad de un ID.
     # size es ancho, largo
@@ -95,6 +97,7 @@ def algoritmoDante(sizeP, arrRec):
         bestWaste = areaT - bestWaste
     else:
         nPlanchas = bestWaste//areaT #para que sea entero //
+        
     #-------------------------------------------------------------
     
     arrRes = [0]*n
@@ -111,12 +114,13 @@ def algoritmoDante(sizeP, arrRec):
         #    return False
         print("iteracion:")
         print(j)
+        arrAreaCut = []
+        for aux in forma:
+            arrAreaCut.append(aux[1])
+        sumAreaCut = sumArea(arrAreaCut)
+        areaT = nP*sizeP[0]*sizeP[1]
         if nPlanchas == 1:
-            arrAreaCut = []
-            for aux in forma:
-                arrAreaCut.append(aux[1])
-            sumAreaCut = sumArea(arrAreaCut)
-            if sumAreaCut == bestWaste and len(forma) == n:
+            if sumAreaCut - areaT == bestWaste and len(forma) == n:
                 return True
         elif nP == nPlanchas and len(forma) == n:
             return True
@@ -143,6 +147,16 @@ def algoritmoDante(sizeP, arrRec):
             print(forma)
             return False
         
+        # --------------------------------FUNCIONES AUXILIARES---------------------------------------
+        def entra(rec):
+            return rec[0][0] + rec[1][0] <= nP*sizeP[0] and rec[0][1] + rec[1][1] <= nP*sizeP[1]
+        
+        def agregar(newRec):
+            print("Agregando")
+            print(newRec)
+            arrRes[j] = newRec
+            return True
+        # ------------------------------------------------------------------------------------------
         
         ##posicionar rec en forma:
         newX = 0
@@ -151,38 +165,41 @@ def algoritmoDante(sizeP, arrRec):
         newRec = [(newX,newY), rec]
         print("forma:")
         print(forma)
-        auxIt = 0
+        idF = 0
+        while idF < len(forma):
+            recF = forma[idF]
+            if choca(newRec, recF):
+                # mover a la derecha:
+                newX = recF[0][0] + recF[1][0]
+                newRec = [(newX, newY), newRec[1]]
+                print("posiciona a la derecha:")
+                print(newRec)
+                if entra(newRec):
+                    forma.append(newRec)
+                    if paso(newRec,j+1,nP):
+                        return agregar(newRec)
+                # mover izquierda:
+                newY = recF[0][1] + recF[1][1]
+                newRec = [(newX, newY), newRec[1]]
+                print("posiciona a la derecha:")
+                print(newRec)
+                if entra(newRec):
+                    forma.append(newRec)
+                if paso(newRec,j+1,nP):
+                    return agregar(newRec)
+            #si no chocan:
+            idF = idF + 1
+            return agregar(newRec)
         
-        def choqueForma(newRec, idF, acomodado):
-            newX, newY = newRec[0][0], newRec[0][1]
-            if idF < len(forma):
-                recF = forma[idF]
-                if chocan(newRec, recF):
-                    newX = recF[0][0] + recF[1][0]
-                    newRec = [(newX, newY), newRec[1]]
-                    # moverse a la derecha
-                    if not acomodado and newX + newRec[1][0] <= nP*sizeP[0]:
-                        print("Probar derecha")
-                        if not choqueForma(newRec, idF + 1, acomodado):
-                            acomodado = auxPosicion(newRec)
-                    newY = recF[0][1] + recF[1][1] 
-                    newRec = [(newX, newY), newRec[1]]
-                    # moverse a la esquina
-                    if not acomodado and newY + newRec[1][0] <= nP*sizeP[1] and newX + newRec[1][0] <= nP*sizeP[0]:
-                        print("Probar esquina")
-                        if not choqueForma(newRec, idF + 1, acomodado):
-                            acomodado = auxPosicion(newRec)
-                    newX = recF[0][0]
-                    newRec = [(newX, newY), newRec[1]]
-                    # moverse abajo
-                    if not acomodado and newY + newRec[1][0] <= nP*sizeP[1]:
-                        print("Probar abajo")
-                        if not choqueForma(newRec, idF + 1, acomodado):
-                            acomodado = auxPosicion(newRec)
+        #despues de ver que chocó:
+        if entra(newRec):
+            ## ejem: el primer corte
+            return agregar(newRec)
+        else:
+            nP = nP + 1
+            areaT = areaT*nP
             return False
-        
-        choqueForma(newRec, auxIt, acomodado)
-        
+
         #for aux in forma:
         #    if chocan(newRecForma,aux):
         #        newX = aux[0][0] + aux[1][0]
