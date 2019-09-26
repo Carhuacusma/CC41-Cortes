@@ -18,13 +18,13 @@ def Natalia(largo, ancho, arrRec, n):
     vecDesperdicio = []
     
     for i in range(n):
-        AreaRecortes = arrRec[i].largo * ArrRec[i].ancho
+        AreaRecortes = arrRec[i].base * ArrRec[i].alto
 
         
     DesperdicioOptimo = AreaPlaca - AreaRecortes
         
     ##3. Ordenar arreglo de recortes por sus anchos
-    arrRec.Largo.sort(reverse = True)
+    InsertionSort(arrRec, n)
     
     ##4. Recortar placa
     if DesperdicioOptimo >= 0:
@@ -68,29 +68,26 @@ def Natalia(largo, ancho, arrRec, n):
 def RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR):
     ##4. Recortar placa
     if PlacaSR == True:
-        largo = arrRec[0].largo
-        ancho = arrRec[0].ancho
-        i, j = 0
-        Recortar(i, j, placa, largo, ancho)
+        largo = arrRec[0].base
+        ancho = arrRec[0].alto
+        Recortar(placa, largo, ancho)
     
     else:
         for i in range(n):
             for j in range(n):
-                if arrRec[i].largo + arr.Rec[j] == largo && arrRec[i].ancho + arrRec[j].ancho <= ancho:
-                    anchos = arrRec[i].ancho + arrRec[j].ancho
-                    Recortar()
+                if arrRec[i].base + arrRec[j].base == largo and arrRec[i].alto + arrRec[j].alto <= ancho:
+                    Recortar(placa, largo, arrRec[i].alto)
+                    Recortar(placa, largo, arrRec[j].alto)
+                    
             
-                if arrRec[i].ancho + arr[j].ancho == ancho && arrRec[i].largo + arrRec[j].largo <= largo:
-                    largos = arrRec[i].largo + arrRec[j].largo
-                    Recortar()
+                if arrRec[i].alto + arr[j].alto == ancho and arrRec[i].base + arrRec[j].base <= largo:
+                    Recortar(placa, arrRec[i].base, ancho)
+                    Recortar(placa, arrRec[j].base, ancho)
             
-                if arrRec[i].largo + arrRec[j].largo <= largo && arrRec[i].ancho + arrRec[j].ancho <= ancho:
             
-                    Recortar()
-            
-                if arrRec[i].ancho + arrRec[j].ancho <= ancho && arrRec[i].largo + arrRec[j].largo <= largo:
-            
-                    Recortar()
+                if arrRec[i].alto + arrRec[j].alto <= ancho and arrRec[i].base + arrRec[j].base <= largo:
+                    Recortar(placa, arrRec[i].base, arrRec[i].alto)
+                    Recortar(placa, arrRec[j].base, arrRec[j].alto)
     
     
     ##5. Calcular el desperdicio
@@ -101,8 +98,18 @@ def RecortarPlaca(arrRec, placa, largo, ancho, AreaPlaca, PlacaSR):
     
     return desperdicio
 
-def Recortar(i, j, placa, largo, ancho):
+def Recortar(placa, largo, ancho):
     for i in range(largo):
         for j in range(ancho):
-            placa[i][j] = 1
-    
+            if placa[i][j] == 0
+                placa[i][j] = 1
+                
+def InsertionSort(arrRec, n):
+    for i in range(n):
+        j = i
+        aux = arrRec[i].base
+        while j > 0 and arrRec[j - 1].base < aux:
+            arrRec[j].base = arrRec[j - 1].base
+            j -= 1
+        if j != i:
+            arrRec[j].base = aux
