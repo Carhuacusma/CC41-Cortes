@@ -1,21 +1,16 @@
-# !/usr/bin/env python
-# coding: utf-8
-
-# In[19]:
-
 class Rectangulo:
     pos = (0,0)
-    arrhijos = []    
     def __init__(self,a,l,en,i,x,y):
         self.base = l
         self.alto = a
         self.n = en
         self.ids = i
-        self.pos = (x,y)
+        self.pos = (x,y)    
+        self.arrhijos = []    
         if en > 1:
             for i in range(en):
-                arrhijos.append()
-
+                self.arrhijos.append(Rectangulo(a,l,0,i,0,0))
+                                     
 def menu():
     largo = int(input("Ingrese el largo de la placa: "))
     ancho = int(input("Ingrese el ancho de la placa: "))
